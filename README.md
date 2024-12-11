@@ -1,4 +1,8 @@
-# spinning-wheel
+<div align="center">
+  <h1>Spinning-Wheel</h1>
+  <p>a Vue-based spinning wheel component</p>
+</div>
+
 
 ## Project setup
 ```
@@ -19,6 +23,3 @@ pnpm run build
 ```
 pnpm run lint
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
