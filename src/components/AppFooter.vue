@@ -22,4 +22,8 @@ footer {
 a {
   color: #aaa;
 }
+
+p {
+  margin: unset;
+}
 </style>
