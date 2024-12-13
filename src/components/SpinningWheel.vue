@@ -5,15 +5,15 @@
       <div class="pointer"></div>
 
       <canvas
-          ref="wheelCanvas"
-          :width="canvasSize"
-          :height="canvasSize"
-          :class="{ spinning: isSpinning }"
+        ref="wheelCanvas"
+        :width="canvasSize"
+        :height="canvasSize"
+        :class="{ spinning: isSpinning }"
       ></canvas>
       <div
-          class="center-button"
-          @click="spin"
-          :class="{ spinning: isSpinning }"
+        class="center-button"
+        @click="spin"
+        :class="{ spinning: isSpinning }"
       >
         Spin
       </div>
@@ -22,10 +22,10 @@
 </template>
 
 <script>
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch } from "vue";
 
 export default {
-  name: 'SpinningWheel',
+  name: "SpinningWheel",
   props: {
     segments: {
       type: Array,
@@ -61,16 +61,10 @@ export default {
 
       // 绘制每个段落
       props.segments.forEach((segment, index) => {
-
         const startAngle = index * anglePerSegmentRad - Math.PI / 2; // 旋转-90度，使第一个段落位于顶部
         const endAngle = startAngle + anglePerSegmentRad;
 
-        const colors = [
-          '#386641',
-          '#a7c957',
-          '#e8d8ae',
-          '#bc4749'
-        ];
+        const colors = ["#F2E8CF", "#BC4749"];
         ctx.fillStyle = colors[index % colors.length];
 
         ctx.beginPath();
@@ -83,9 +77,10 @@ export default {
         ctx.save();
         ctx.translate(center, center);
         ctx.rotate(startAngle + anglePerSegmentRad / 2);
-        ctx.textAlign = 'right';
-        ctx.fillStyle = 'white';
-        ctx.font = 'bold 18px Arial';
+        ctx.textAlign = "right";
+        const fontColors = ["#BC4749", "#F2E8CF"];
+        ctx.fillStyle = fontColors[index % colors.length];
+        ctx.font = "bold 18px Arial";
         ctx.fillText(segment, radius - 10, 0);
         ctx.restore();
       });
@@ -93,28 +88,35 @@ export default {
 
     // 初始化画布并绘制轮盘
     onMounted(() => {
-      ctx = wheelCanvas.value.getContext('2d');
+      ctx = wheelCanvas.value.getContext("2d");
       drawWheel();
     });
 
     // 监听segments变化，重新绘制轮盘
-    watch(() => props.segments, (newSegments) => {
-      if (props.preSelected && newSegments.includes(props.preSelected)) {
-        selectedSegment.value = props.preSelected;
-      } else {
-        selectedSegment.value = null;
-      }
-      drawWheel();
-    }, { deep: true });
+    watch(
+      () => props.segments,
+      (newSegments) => {
+        if (props.preSelected && newSegments.includes(props.preSelected)) {
+          selectedSegment.value = props.preSelected;
+        } else {
+          selectedSegment.value = null;
+        }
+        drawWheel();
+      },
+      { deep: true }
+    );
 
-    watch(() => props.preSelected, (newVal) => {
-      if (newVal && props.segments.includes(newVal)) {
-        selectedSegment.value = newVal;
-      } else {
-        selectedSegment.value = null;
+    watch(
+      () => props.preSelected,
+      (newVal) => {
+        if (newVal && props.segments.includes(newVal)) {
+          selectedSegment.value = newVal;
+        } else {
+          selectedSegment.value = null;
+        }
+        drawWheel();
       }
-      drawWheel();
-    });
+    );
 
     // 旋转函数
     const spin = () => {
@@ -149,16 +151,16 @@ export default {
       setTimeout(() => {
         isSpinning.value = false;
 
-        wheelCanvas.value.style.transition = 'none';
+        wheelCanvas.value.style.transition = "none";
 
-        // const actualRotation = totalRotation % 360;
+        const actualRotation = totalRotation % 360;
         // const selectedIndex = Math.floor((360 - actualRotation) / anglePerSeg) % segCount;
 
         selectedSegment.value = targetSegment;
         alert(`Got ${selectedSegment.value} !`);
 
         // 重置旋转以防止旋转角度过大
-        // wheelCanvas.value.style.transform = `rotate(${actualRotation}deg)`;
+        wheelCanvas.value.style.transform = `rotate(${actualRotation}deg)`;
       }, props.spinDuration);
     };
 
@@ -179,7 +181,6 @@ export default {
   align-items: center;
 
   padding: 24px;
-
 }
 
 .wheel-wrapper {
@@ -205,10 +206,10 @@ export default {
 }
 
 canvas {
-  border: 2px dashed #0B6B37;
+  border: 2px dashed rgba(128, 128, 128, 0.5);
   border-radius: 50%;
   transition: transform 5s ease-out;
-  box-shadow: #FFD700 0px 1px 4px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 
 .center-button {
